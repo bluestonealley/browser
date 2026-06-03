@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme {
+  --font-heading: "Marlin", sans-serif;
+  --font-body: "Marlin Soft SQ", sans-serif;
+  --font-handwritten: "Space Mono", monospace;
+
+  --color-background: #ffffff;
+  --color-foreground: #090201;
+  --color-card: #f0f1ff;
+  --color-card-foreground: #090201;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #090201;
+  --color-primary: #F59E0B;
+  --color-primary-foreground: #ffffff;
+  --color-ring: #F59E0B;
+  --color-blue: #5057ff;
+  --color-success: #00110c;
+  --color-warning: #fffcec;
+
+  --spacing-grid: 0.25rem;
+
+  --radius: 0.5rem;
+
+  --shadow-subtle: 0 2px 2px rgba(0, 0, 0, 0.1);
+  --shadow-raised: 0px 2px 8px 0px rgba(0, 0, 0, 0.25);
+  --shadow-raised-alt: 0 5px 5px rgba(0, 0, 0, 0.1);
+  --shadow-floating: 0 7px 15px rgba(0, 0, 0, 0.2);
+
+  --container-max: 1280px;
+}
+
+@font-face {
+  font-family: "Marlin";
+  src: url("/fonts/Marlin-800.woff2") format("woff2");
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: "Marlin Soft SQ";
+  src: url("/fonts/MarlinSoftSQ-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Marlin Soft SQ";
+  src: url("/fonts/MarlinSoftSQ-500.woff2") format("woff2");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Marlin Soft SQ";
+  src: url("/fonts/MarlinSoftSQ-700.woff2") format("woff2");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Space Mono";
+  src: url("/fonts/SpaceMono-700.woff2") format("woff2");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Space Mono";
+  src: url("/fonts/SpaceMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+
+body {
+  font-family: "Marlin Soft SQ", sans-serif;
+  color: var(--color-foreground);
+  background: var(--color-background);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Marlin", sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+:root {
+  --button-ripple-color: oklch(0.145 0 0 / 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

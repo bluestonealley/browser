@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Next.js build
+.next/
+
+# TypeScript
+tsconfig.tsbuildinfo
+next-env.d.ts
+
+# Agent / dev tooling
+.agents/
+.claude/
+.impeccable/
+arc-design.skill
+CLAUDE.md
+
+# Source assets (public/ has copies)
+assets/
+/fonts/
+references/
+screenshots/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
