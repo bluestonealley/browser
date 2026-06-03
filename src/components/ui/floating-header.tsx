@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import Image from 'next/image';
-import { m } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { MenuIcon } from 'lucide-react';
 import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
 import { RippleButton } from '@/components/ui/multi-type-ripple-buttons';
@@ -35,19 +35,9 @@ export function FloatingHeader() {
 
 	const getIndicatorStyle = () => {
 		const nav = fullNavRef.current;
-		if (!nav) return { left: 0, width: 0, top: 0, height: 0 };
+		if (!nav || hoveredItem === null) return { left: 0, width: 0, top: 0, height: 0 };
 
 		const navRect = nav.getBoundingClientRect();
-
-		if (hoveredItem === null) {
-			return {
-				left: 0,
-				width: navRect.width,
-				top: 0,
-				height: navRect.height,
-			};
-		}
-
 		const el = nav.querySelector(`[data-nav="${hoveredItem}"]`);
 		if (!el) return { left: 0, width: 0, top: 0, height: 0 };
 		const elRect = el.getBoundingClientRect();
@@ -62,11 +52,6 @@ export function FloatingHeader() {
 	const indicator = getIndicatorStyle();
 	const isBlue = hoveredItem === 0 || hoveredItem === 4;
 
-	const itemTextColor = (index: number): string => {
-		if (hoveredItem === null) return '#ffffff';
-		return hoveredItem === index ? '#ffffff' : '#090201';
-	};
-
 	return (
 		<header
 			className={cn(
@@ -78,28 +63,33 @@ export function FloatingHeader() {
 				className="mx-auto flex items-center justify-between p-1.5 relative"
 				onMouseLeave={() => setHoveredItem(null)}
 			>
-				{ready && (
-					<m.div
-						className={cn(
-							'absolute rounded-lg pointer-events-none',
-							isBlue ? 'bg-blue' : 'bg-primary',
-						)}
-						initial={false}
-						animate={{
-							left: indicator.left,
-							width: indicator.width,
-							top: indicator.top,
-							height: indicator.height,
-							borderRadius: hoveredItem === null ? '0.5rem' : '0.375rem',
-						}}
-						transition={{ type: 'spring', stiffness: 500, damping: 40 }}
-					/>
-				)}
+				<AnimatePresence>
+					{hoveredItem !== null && ready && (
+						<m.div
+							key="nav-pill"
+							className={cn(
+								'absolute rounded-md pointer-events-none',
+								isBlue ? 'bg-blue' : 'bg-primary',
+							)}
+							initial={{ scaleY: 0, opacity: 0 }}
+							animate={{
+								left: indicator.left,
+								width: indicator.width,
+								top: indicator.top,
+								height: indicator.height,
+								scaleY: 1,
+								opacity: 1,
+							}}
+							exit={{ scaleY: 0, opacity: 0 }}
+							style={{ transformOrigin: 'bottom' }}
+							transition={{ type: 'spring', stiffness: 500, damping: 40 }}
+						/>
+					)}
+				</AnimatePresence>
 				<div
 					className="relative z-10 flex cursor-pointer items-center gap-2 rounded-md px-2 py-1"
 					data-nav="0"
 					onMouseEnter={() => setHoveredItem(0)}
-					style={{ color: itemTextColor(0) }}
 				>
 					<Image src="/logo-tran.webp" alt="Logo" width={1254} height={1254} className="h-7 w-auto" priority />
 				</div>
@@ -110,7 +100,6 @@ export function FloatingHeader() {
 							className="relative"
 							data-nav={i + 1}
 							onMouseEnter={() => setHoveredItem(i + 1)}
-							style={{ color: itemTextColor(i + 1) }}
 						>
 							<RippleButton
 								variant="ghost"
@@ -129,7 +118,6 @@ export function FloatingHeader() {
 					<div
 						data-nav="4"
 						onMouseEnter={() => setHoveredItem(4)}
-						style={{ color: itemTextColor(4) }}
 					>
 						<RippleButton variant="ghost" className="!rounded-md text-sm px-3 py-1.5 h-9">
 							Login
