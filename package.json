@@ -26,8 +26,12 @@
     "next": "^15.5.19",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.9.3",
     "uuid": "^14.0.0"
+  },
+  "allowScripts": {
+    "sharp@0.34.5": true
   }
 }

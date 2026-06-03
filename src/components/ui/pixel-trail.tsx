@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef } from "react"
-import { motion, useAnimationControls } from "framer-motion"
+import { m, useAnimationControls } from "framer-motion"
 import { v4 as uuidv4 } from "uuid"
 
 import { cn } from "@/lib/utils"
@@ -22,7 +22,8 @@ const PixelTrail: React.FC<PixelTrailProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const dimensions = useDimensions(containerRef)
-  const trailId = useRef(uuidv4())
+  const trailId = useRef<string | null>(null);
+if (trailId.current === null) trailId.current = uuidv4()
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -96,7 +97,7 @@ const PixelDot: React.FC<PixelDotProps> = React.memo(
         opacity: [1, 0],
         transition: { duration: fadeDuration / 1000, delay: delay / 1000 },
       })
-    }, [])
+    }, [controls, fadeDuration, delay])
 
     const ref = useCallback(
       (node: HTMLDivElement | null) => {
@@ -108,7 +109,7 @@ const PixelDot: React.FC<PixelDotProps> = React.memo(
     )
 
     return (
-      <motion.div
+      <m.div
         id={id}
         ref={ref}
         className={cn("cursor-pointer-none", className)}

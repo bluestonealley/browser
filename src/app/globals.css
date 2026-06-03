@@ -34,36 +34,42 @@
   font-family: "Marlin";
   src: url("/fonts/Marlin-800.woff2") format("woff2");
   font-weight: 800;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Marlin Soft SQ";
   src: url("/fonts/MarlinSoftSQ-Regular.woff2") format("woff2");
   font-weight: 400;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Marlin Soft SQ";
   src: url("/fonts/MarlinSoftSQ-500.woff2") format("woff2");
   font-weight: 500;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Marlin Soft SQ";
   src: url("/fonts/MarlinSoftSQ-700.woff2") format("woff2");
   font-weight: 700;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Space Mono";
   src: url("/fonts/SpaceMono-700.woff2") format("woff2");
   font-weight: 700;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Space Mono";
   src: url("/fonts/SpaceMono-Regular.woff2") format("woff2");
   font-weight: 400;
+  font-display: swap;
 }
 
 body {

@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useRef, useLayoutEffect } from 'react';
-import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { m } from 'framer-motion';
 import { MenuIcon } from 'lucide-react';
 import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
 import { RippleButton } from '@/components/ui/multi-type-ripple-buttons';
@@ -78,7 +79,7 @@ export function FloatingHeader() {
 				onMouseLeave={() => setHoveredItem(null)}
 			>
 				{ready && (
-					<motion.div
+					<m.div
 						className={cn(
 							'absolute rounded-lg pointer-events-none',
 							isBlue ? 'bg-blue' : 'bg-primary',
@@ -100,7 +101,7 @@ export function FloatingHeader() {
 					onMouseEnter={() => setHoveredItem(0)}
 					style={{ color: itemTextColor(0) }}
 				>
-					<img src="/logo-tran.png" alt="Logo" className="h-7 w-auto" />
+					<Image src="/logo-tran.webp" alt="Logo" width={1254} height={1254} className="h-7 w-auto" priority />
 				</div>
 				<div className="hidden relative z-10 items-center gap-1 lg:flex">
 					{links.map((link, i) => (

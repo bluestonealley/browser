@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { GooeyFilter } from "@/components/ui/gooey-filter";
 import { PixelTrail } from "@/components/ui/pixel-trail";
 import { useScreenSize } from "@/hooks/use-screen-size";
@@ -64,10 +65,13 @@ export default function Hero() {
             </div>
           }
         >
-          <img
-            src="/browser-view.png"
+          <Image
+            src="/browser-view.webp"
             alt="Browser preview"
+            width={1264}
+            height={843}
             className="w-full h-full object-cover rounded-2xl"
+            priority
           />
         </ContainerScroll>
       </div>

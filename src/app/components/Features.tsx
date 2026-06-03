@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 import { useScroll } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -10,19 +11,19 @@ const features = [
     title: "Ambient Spaces",
     description:
       "A smart workspace system where toggling categories automatically shifts the browser's UI colors, active layout tools, and accent themes to perfectly match your current mindset or workflow.",
-    image: "/scroll-1.png",
+    image: "/scroll-1.webp",
   },
   {
     title: "Omnibar Actions",
     description:
       "A command-line utility built directly into your URL bar, allowing you to use simple keyboard shortcuts and / commands to trigger seamless, lightweight developer tools and layout inspection tools on any page.",
-    image: "/scroll-2.png",
+    image: "/scroll-2.webp",
   },
   {
     title: "Canvas Split-View",
     description:
       "A multitasking layout that lets you arrange tabs side-by-side like design layers, featuring a persistent, glassmorphic utility dock at the bottom corner for low-profile background widgets.",
-    image: "/scroll-3.png",
+    image: "/scroll-3.webp",
   },
 ];
 
@@ -119,9 +120,11 @@ export default function Features() {
                   )}
                 >
                   <div className="w-full rounded-[12px] overflow-hidden shadow-raised">
-                    <img
+                    <Image
                       src={f.image}
                       alt={f.title}
+                      width={1264}
+                      height={843}
                       className="w-full h-auto"
                     />
                   </div>

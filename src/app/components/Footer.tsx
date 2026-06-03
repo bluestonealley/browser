@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const footerLinks = [
   {
     heading: "Product",
@@ -44,7 +46,7 @@ export default function Footer() {
         </div>
         <div className="mt-16 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <a href="/">
-            <img src="/logo-tran.png" alt="Logo" className="h-7 w-auto" />
+            <Image src="/logo-tran.webp" alt="Logo" width={1254} height={1254} className="h-7 w-auto" />
           </a>
           <p className="font-body text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} Browser. All rights reserved.

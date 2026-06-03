@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 const faqs = [
   {
@@ -53,7 +53,7 @@ export default function FAQ() {
                   <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
-              <motion.div
+              <m.div
                 initial={false}
                 animate={{
                   maxHeight: openIndex === i ? 1000 : 0,
@@ -65,7 +65,7 @@ export default function FAQ() {
                 <div className="px-4 pb-4 font-body text-sm text-muted-foreground leading-relaxed">
                   {faq.a}
                 </div>
-              </motion.div>
+              </m.div>
             </div>
           ))}
         </div>
