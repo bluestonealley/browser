@@ -50,7 +50,7 @@ const tiers: PricingTier[] = [
 
 export default function PricingSection() {
   return (
-    <section id="pricing" className="py-24">
+    <section id="pricing" className="py-24 scroll-mt-14">
       <CreativePricing
         tag="Simple Pricing"
         title="Find Your Perfect Plan"

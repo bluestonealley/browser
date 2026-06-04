@@ -49,7 +49,7 @@ export default function Features() {
   }, [scrollYProgress]);
 
   return (
-    <section id="features" ref={sectionRef} className="relative">
+    <section ref={sectionRef} className="relative">
       <div className="relative z-10">
         <div className="max-w-[1280px] mx-auto px-4 pt-24 pb-8 text-center">
           <h2 className="font-heading text-[48px] md:text-[64px] font-700 text-blue leading-[1.2] tracking-tight">

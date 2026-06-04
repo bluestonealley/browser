@@ -29,7 +29,7 @@ function CreativePricing({
                 <div className="font-body text-sm text-primary uppercase tracking-wider">
                     {tag}
                 </div>
-                <h2 className="font-heading text-[48px] md:text-[64px] font-700 leading-[1.2] tracking-tight text-blue">
+                <h2 className="font-heading text-[36px] md:text-[64px] font-700 leading-[1.2] tracking-tight text-blue">
                     {title}
                 </h2>
                 <p className="font-body text-sm text-muted-foreground max-w-[480px] mx-auto">

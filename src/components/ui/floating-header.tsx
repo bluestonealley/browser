@@ -3,8 +3,7 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import Image from 'next/image';
 import { m, AnimatePresence } from 'framer-motion';
-import { MenuIcon } from 'lucide-react';
-import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
+import { MenuIcon, XIcon } from 'lucide-react';
 import { RippleButton } from '@/components/ui/multi-type-ripple-buttons';
 import { cn } from '@/lib/utils';
 
@@ -26,10 +25,6 @@ export function FloatingHeader() {
 		{
 			label: 'Pricing',
 			href: '#pricing',
-		},
-		{
-			label: 'About',
-			href: '#about',
 		},
 	];
 
@@ -55,14 +50,67 @@ export function FloatingHeader() {
 	return (
 		<header
 			className={cn(
-				'sticky top-5 z-50 mx-auto w-full max-w-3xl rounded-lg shadow bg-background',
+				'fixed top-4 md:top-5 z-50 inset-x-0 mx-auto w-full max-w-3xl bg-background rounded-lg shadow',
 			)}
 		>
 			<nav
 				ref={fullNavRef}
-				className="mx-auto flex items-center justify-between p-1.5 relative"
+				className="relative"
 				onMouseLeave={() => setHoveredItem(null)}
 			>
+				<div className="flex items-center justify-between p-1.5">
+					<div
+						className="relative z-10 flex cursor-pointer items-center gap-2 rounded-md px-2 py-1"
+						data-nav="0"
+						onMouseEnter={() => setHoveredItem(0)}
+					>
+						<Image src="/logo-tran.webp" alt="Logo" width={1254} height={1254} className="h-7 w-auto" priority />
+					</div>
+					<div className="hidden relative z-10 items-center gap-1 md:flex">
+						{links.map((link, i) => (
+							<div
+								key={link.label}
+								className="relative"
+								data-nav={i + 1}
+								onMouseEnter={() => setHoveredItem(i + 1)}
+							>
+								<button
+									type="button"
+									className="inline-flex items-center rounded-md text-sm px-3 py-1.5 h-9 text-foreground cursor-pointer"
+									onClick={() => {
+										const el = document.getElementById(link.href.slice(1));
+										if (el) {
+											const top = el.getBoundingClientRect().top + window.scrollY - 64;
+											window.scrollTo({ top, behavior: 'auto' });
+										}
+									}}
+								>
+									{link.label}
+								</button>
+							</div>
+						))}
+					</div>
+					<div className="flex items-center gap-2">
+						<div
+							className="relative z-10"
+							data-nav="4"
+							onMouseEnter={() => setHoveredItem(4)}
+						>
+							<RippleButton variant="ghost" className="!rounded-md text-sm px-3 py-1.5 h-9">
+								Login
+							</RippleButton>
+						</div>
+						<RippleButton
+							variant="ghost"
+							className="!rounded-md !p-2 h-10 w-10 flex items-center justify-center md:hidden relative z-10"
+							rippleColor="rgba(0,0,0,0.1)"
+							onClick={() => setOpen(!open)}
+						>
+							{open ? <XIcon className="size-4" /> : <MenuIcon className="size-4" />}
+						</RippleButton>
+					</div>
+				</div>
+
 				<AnimatePresence>
 					{hoveredItem !== null && ready && (
 						<m.div
@@ -86,85 +134,50 @@ export function FloatingHeader() {
 						/>
 					)}
 				</AnimatePresence>
-				<div
-					className="relative z-10 flex cursor-pointer items-center gap-2 rounded-md px-2 py-1"
-					data-nav="0"
-					onMouseEnter={() => setHoveredItem(0)}
-				>
-					<Image src="/logo-tran.webp" alt="Logo" width={1254} height={1254} className="h-7 w-auto" priority />
-				</div>
-				<div className="hidden relative z-10 items-center gap-1 lg:flex">
-					{links.map((link, i) => (
-						<div
-							key={link.label}
-							className="relative"
-							data-nav={i + 1}
-							onMouseEnter={() => setHoveredItem(i + 1)}
-						>
-							<RippleButton
-								variant="ghost"
-								className="!rounded-md text-sm px-3 py-1.5 h-9"
-								onClick={() => {
-									const el = document.getElementById(link.href.slice(1));
-									el?.scrollIntoView({ behavior: 'smooth' });
-								}}
+
+				<div className="md:hidden">
+					<AnimatePresence>
+						{open && (
+							<m.div
+								initial={{ height: 0, opacity: 0 }}
+								animate={{ height: 'auto', opacity: 1 }}
+								exit={{ height: 0, opacity: 0 }}
+								transition={{ duration: 0.2, ease: 'easeOut' }}
+								className="overflow-hidden rounded-b-lg"
 							>
-								{link.label}
-							</RippleButton>
-						</div>
-					))}
-				</div>
-				<div className="flex items-center gap-2">
-					<div
-						data-nav="4"
-						onMouseEnter={() => setHoveredItem(4)}
-					>
-						<RippleButton variant="ghost" className="!rounded-md text-sm px-3 py-1.5 h-9">
-							Login
-						</RippleButton>
-					</div>
-					<Sheet open={open} onOpenChange={setOpen}>
-						<RippleButton
-							variant="ghost"
-							className="!rounded-md !p-2 h-10 w-10 flex items-center justify-center lg:hidden"
-							rippleColor="rgba(0,0,0,0.1)"
-						>
-							<MenuIcon className="size-4" />
-						</RippleButton>
-						<SheetContent
-							className="bg-background/95 supports-[backdrop-filter]:bg-background/80 gap-0 backdrop-blur-lg"
-							showClose={false}
-							side="left"
-						>
-							<div className="grid gap-y-2 overflow-y-auto px-4 pt-12 pb-5">
-								{links.map((link) => (
-									<RippleButton
+								<div className="px-3 pb-3 space-y-1">
+									{links.map((link) => (
+									<button
 										key={link.label}
-										variant="ghost"
-										className="!rounded-md !justify-start text-sm px-3 py-2"
+										type="button"
+										className="block w-full rounded-md text-sm px-3 py-2 text-left text-foreground hover:bg-muted/50 transition-colors cursor-pointer"
 										onClick={() => {
 											setOpen(false);
 											const el = document.getElementById(link.href.slice(1));
-											el?.scrollIntoView({ behavior: 'smooth' });
+											if (el) {
+												const top = el.getBoundingClientRect().top + window.scrollY - 64;
+												window.scrollTo({ top, behavior: 'auto' });
+											}
 										}}
 									>
 										{link.label}
-									</RippleButton>
-								))}
-							</div>
-							<SheetFooter>
-								<RippleButton variant="ghost" className="!rounded-md text-sm">
-									Sign In
-								</RippleButton>
-								<RippleButton
-									className="!bg-primary !text-primary-foreground !rounded-md text-sm"
-									rippleColor="rgba(255,255,255,0.5)"
-								>
-									Get Started
-								</RippleButton>
-							</SheetFooter>
-						</SheetContent>
-					</Sheet>
+									</button>
+									))}
+									<div className="border-t border-border pt-3 mt-3 space-y-2">
+										<RippleButton variant="ghost" className="w-full !rounded-md text-sm">
+											Sign In
+										</RippleButton>
+										<RippleButton
+											className="w-full !bg-primary !text-primary-foreground !rounded-md text-sm"
+											rippleColor="rgba(255,255,255,0.5)"
+										>
+											Get Started
+										</RippleButton>
+									</div>
+								</div>
+							</m.div>
+						)}
+					</AnimatePresence>
 				</div>
 			</nav>
 		</header>

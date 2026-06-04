@@ -20,7 +20,7 @@ export default function Hero() {
         style={{ filter: "url(#hero-gooey)" }}
       >
         <PixelTrail
-          pixelSize={screenSize.lessThan("md") ? 12 : 16}
+          pixelSize={screenSize.lessThan("md") ? 20 : 16}
           fadeDuration={500}
           delay={100}
           pixelClassName="bg-primary"
@@ -30,18 +30,18 @@ export default function Hero() {
         <ContainerScroll
           titleComponent={
             <div className="max-w-[1280px] mx-auto px-4 pt-28 md:pt-40 text-center">
-              <h1 className="font-heading text-[64px] md:text-[90px] lg:text-[100px] font-700 leading-[1.2] tracking-tight text-blue text-center">
+              <h1 className="font-heading text-[28px] sm:text-[36px] md:text-[48px] lg:text-[90px] xl:text-[100px] font-700 leading-[1.2] tracking-tight text-blue text-center">
                 The browser that
                 <br />
-                <span className="inline-block -ml-[4ch]">
+                <span className="inline-block -ml-[4ch] max-md:-ml-[2ch] max-sm:-ml-[1.5ch]">
                   works the way{" "}
                   <span className="text-primary">you</span>{" "}
                   <GooeyText
                     texts={["want", "love", "like", "do"]}
                     morphTime={1}
                     cooldownTime={0.25}
-                    className="ml-[0.5ch]"
-                    textClassName="text-primary font-heading text-[64px] md:text-[90px] lg:text-[100px] font-700 leading-[1.2]"
+                    className="ml-[0.5ch] max-md:ml-[0.25ch] max-sm:ml-[0.15ch]"
+                    textClassName="text-primary font-heading text-[28px] sm:text-[36px] md:text-[48px] lg:text-[90px] xl:text-[100px] font-700 leading-[1.2]"
                   />
                 </span>
               </h1>

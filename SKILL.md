@@ -314,22 +314,18 @@ Mobile-first: design for small screens, layer on responsive overrides.
 
 React component in `src/components/ui/floating-header.tsx`. Implements a sticky, centered floating navbar.
 
-**Structure:** The navbar has 3 content areas inside `<nav>` — logo (left), nav links (center), login + menu (right). A spring-animated pill (`motion.div`) sits behind all content and covers the full `<nav>` by default, or shrinks to the hovered item on hover.
+**Structure:** The navbar has 3 content areas inside `<nav>` — logo (left), nav links (center), login + menu (right). An `AnimatePresence`-managed spring pill (`motion.div`) sits behind the hovered item and grows upward from its bottom edge.
 
 **Hover pill behavior:**
-- **No hover:** amber (`bg-primary`) pill covers the entire navbar — all text is white
-- **Hover on Features/Pricing/About:** amber pill shrinks to that button — other items show black text on white `bg-background`
-- **Hover on Logo or Login:** blue (`bg-blue`, `#5057ff`) pill shrinks to that button
+- **No hover:** No pill visible — white navbar with black text
+- **Hover on Features/Pricing/About:** amber (`bg-primary`) pill grows upward from the button's bottom edge — text stays black
+- **Hover on Logo or Login:** blue (`bg-blue`, `#5057ff`) pill grows upward from the button's bottom edge — text stays black
 
-**Text color logic** (`itemTextColor` function):
-```ts
-const itemTextColor = (index: number): string => {
-  if (hoveredItem === null) return '#ffffff';    // on amber/blue bg
-  return hoveredItem === index ? '#ffffff' : '#090201';  // hovered=white, others=black
-};
-```
+**Pill entrance:** The pill only mounts when something is hovered (`AnimatePresence`). It positions directly at the hovered button's coordinates and animates `scaleY` from 0→1 with `transformOrigin: bottom` — it grows upward from the button's bottom edge. On unhover, it collapses back down. When switching between buttons, the left/top/width/height spring-animate to slide to the next item.
 
-**Spring config:** `stiffness: 500, damping: 40` (slightly stiffer than previous 400/35)
+**Text color:** All nav items always use their default inherited dark text (`#090201`). No inline color styles. The text never changes color on hover.
+
+**Spring config:** `stiffness: 500, damping: 40`
 
 **Color logic:**
 ```ts
@@ -338,7 +334,8 @@ const isBlue = hoveredItem === 0 || hoveredItem === 4;  // Logo=0, Login=4
 ```
 
 **Key behaviors:**
-- `useLayoutEffect` + `initial={false}` prevents initial flash — pill renders at correct full-nav dimensions before first paint
+- `useLayoutEffect` sets ready state for mounting
+- `AnimatePresence` mounts/unmounts the pill — no pill renders when nothing is hovered
 - `onMouseLeave` on `<nav>` resets hover state (only when cursor leaves entire navbar)
 - Nav links use `data-nav` attributes for element lookup via `querySelector`
 - Mobile nav uses a `Sheet` (slide-in panel) from Radix UI

@@ -163,9 +163,9 @@ A sticky centered navbar that floats at the top of the viewport. Solid white bac
 
 - **Shape:** Rounded-lg (12px), centered at `max-width: 48rem`, offset `top-5` from viewport top.
 - **Background:** Solid white.
-- **Hover pill:** A spring-animated `motion.div` sits behind all nav content. By default it covers the entire `<nav>` making the whole navbar amber. On hover it shrinks to just the hovered element. Spring config: `stiffness: 500, damping: 40`.
+- **Hover pill:** An `AnimatePresence`-managed spring pill (`motion.div`) sits behind the hovered item. Pill only mounts when something is hovered — otherwise the navbar is empty white. It positions directly at the hovered button's coordinates and animates `scaleY` from 0→1 with `transformOrigin: bottom`, growing upward from the button's bottom edge. On unhover it collapses back down. Spring config: `stiffness: 500, damping: 40`.
 - **Pill colors:** Features/Pricing/About use amber (`bg-primary`). Logo and Login use blue (`bg-blue`, `#5057ff`).
-- **Text colors:** When the pill covers the full navbar (no hover), all text is white. When the pill shrinks to a hovered item, that item's text is white and the rest turn black (`#090201`).
+- **Text colors:** All nav items always use their default dark text (`#090201`). Text never changes color on hover.
 - **Nav Items:** Logo (left), Features/Pricing/About (center), Login (right).
 - **Logo:** `/logo-tran.png` (public/)
 - **Mobile:** Navigation collapses into a Radix Sheet (slide-in panel from the left) on screens below `lg` breakpoint.

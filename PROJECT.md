@@ -163,7 +163,7 @@ Sheet → @radix-ui/react-dialog
 
 ## Key Behaviors
 
-- **Navbar pill:** `useLayoutEffect` + `initial={false}` prevents SSR flash. Spring config: `stiffness: 500, damping: 40`. Pill color `isBlue` for Logo (0) and Login (4), `bg-primary` for links (1-3).
+- **Navbar pill:** `AnimatePresence` mounts/unmounts the pill — no pill by default (white navbar). Pill grows upward from the hovered button's bottom edge via `scaleY` + `transformOrigin: bottom`. Spring config: `stiffness: 500, damping: 40`. Pill color `isBlue` for Logo (0) and Login (4), `bg-primary` for links (1-3). Text always stays `#090201` (black).
 - **Hero card:** `aspect-[1126/678]` matches the 1126×678 browser preview image.
 - **MagneticButton:** Spring config `damping: 60, stiffness: 600`. Hero's Download button uses `distance={1.0}`.
 - **FAQ:** `motion.div` with `maxHeight`/`opacity` animation (0.25s ease-out).

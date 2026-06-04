@@ -13,6 +13,7 @@ type MagneticButtonType = {
 function MagneticButton({ children, distance = 0.6 }: MagneticButtonType) {
   const [isHovered, setIsHovered] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const isTouchDevice = typeof window !== 'undefined' && 'ontouchstart' in window;
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -21,6 +22,8 @@ function MagneticButton({ children, distance = 0.6 }: MagneticButtonType) {
   const springY = useSpring(y, SPRING_CONFIG);
 
   useEffect(() => {
+    if (isTouchDevice) return;
+
     const calculateDistance = (e: MouseEvent) => {
       if (ref.current) {
         const rect = ref.current.getBoundingClientRect();

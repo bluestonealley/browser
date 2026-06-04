@@ -18,10 +18,24 @@ export function GooeyText({
   className,
   textClassName
 }: GooeyTextProps) {
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const text1Ref = React.useRef<HTMLSpanElement>(null);
   const text2Ref = React.useRef<HTMLSpanElement>(null);
+  const isVisibleRef = React.useRef(true);
 
   React.useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { isVisibleRef.current = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  React.useEffect(() => {
+
     let textIndex = texts.length - 1;
     let time = new Date();
     let morph = 0;
@@ -68,6 +82,7 @@ export function GooeyText({
 
     function animate() {
       requestAnimationFrame(animate);
+      if (!isVisibleRef.current) return;
       const newTime = new Date();
       const shouldIncrementIndex = cooldown > 0;
       const dt = (newTime.getTime() - time.getTime()) / 1000;
@@ -97,7 +112,7 @@ export function GooeyText({
   const longest = texts.reduce((a, b) => (a.length > b.length ? a : b), "");
 
   return (
-    <div className={cn("relative inline-grid", className)}>
+    <div ref={containerRef} className={cn("relative inline-grid", className)}>
       <span className="invisible whitespace-nowrap col-start-1 row-start-1" aria-hidden="true">
         {longest}
       </span>

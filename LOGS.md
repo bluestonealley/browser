@@ -2,6 +2,94 @@
 
 > All changes made during this session (2026-06-03).
 
+## 20. Mobile Responsiveness — 8 Fixes
+
+### 9. Mobile-only feature carousel
+**File:** `Features.tsx`
+Replaced the broken `md:sticky` approach with two separate layouts:
+- **Desktop**: unchanged — sticky left panel + scrollable images on right
+- **Mobile**: scroll-driven horizontal carousel via `FeatureMobileCarousel`
+  - Text crossfades between features (opacity + Y offset via `useTransform`)
+  - Images slide horizontally: current exits left, next enters from right
+  - Driven directly by `scrollYProgress` — stop scrolling mid-way and the animation pauses in place
+  - Both layouts use `hidden md:block` / `block md:hidden` to avoid SSR hydration issues
+
+
+
+### 1. Responsive font sizes (4 files)
+**Files:** `FAQ.tsx`, `CTA.tsx`, `Hero.tsx`, `creative-pricing.tsx`
+- FAQ heading `text-[64px]` → `text-[40px] md:text-[64px]`
+- CTA heading `text-[64px]` → `text-[36px] md:text-[64px]`
+- Pricing title `text-[48px]` → `text-[36px] md:text-[64px]`
+- Hero heading `text-[64px]` → `text-[40px] md:text-[90px] lg:text-[100px]`
+- Hero `-ml-[4ch]` → `-ml-[4ch] max-md:-ml-[2ch]` (reduced left shift on mobile)
+- GooeyText `ml-[0.5ch]` → `ml-[0.5ch] max-md:ml-[0.25ch]`
+
+### 2. Features section — sticky only on desktop
+**File:** `Features.tsx`
+- Changed `sticky top-0 h-screen` → `md:sticky md:top-0 md:h-screen`
+- Features text panel now scrolls normally on mobile instead of being stuck to viewport
+- Reduced `py-24` → `py-16 md:py-24`
+
+### 3. ContainerScroll — disable 3D transforms on mobile
+**File:** `container-scroll-animation.tsx`
+- Container height `h-[60rem]` → `h-[40rem]` on mobile
+- `rotateX` set to `[0, 0]` on mobile (no perspective rotation)
+- `scale` set to `[1, 1]` on mobile (no zoom)
+- `perspective` set to `none` on mobile
+
+### 4. PixelTrail — larger pixels on mobile
+**File:** `Hero.tsx`
+- Mobile pixelSize increased from 12 → 20, reducing dot count from ~2100 to ~760
+
+### 5. GooeyText — pause animation when off-screen
+**File:** `gooey-text-morphing.tsx`
+- Added IntersectionObserver — rAF loop only runs when component is visible
+- Saves battery/CPU when user scrolls past the hero section
+
+### 6. MagneticButton — skip tracking on touch devices
+**File:** `magnetic-button.tsx`
+- Added `'ontouchstart' in window` check — mouse-tracking effect is disabled on touch
+- Button remains clickable, just no cursor-follow motion
+
+### 7. Navbar — flush top on mobile
+**File:** `floating-header.tsx`
+- Changed `top-5 rounded-lg` → `top-0 md:top-5 rounded-none md:rounded-lg`
+- Navbar spans edge-to-edge on mobile, floats centered on desktop
+
+### 8. Footer — single column on smallest screens
+**File:** `Footer.tsx`
+- Changed `grid-cols-2` → `grid-cols-1 sm:grid-cols-2`
+- Links stack in one column on very small screens (≤640px)
+
+---
+
+## 19. Navbar Pill — Bottom-Origin Entrance, Always-Black Text
+
+**Files:** `src/components/ui/floating-header.tsx`
+
+### What changed
+Two behavioral changes to the navbar hover pill:
+
+### 1. Pill entrance origin fixed
+**Before:** The pill used `lastPositionRef` starting at `{0,0,0,0}` so on first hover it animated from the top-left corner of the navbar to the hovered button — looked like it was coming from center.
+
+**After:** Replaced `lastPositionRef` + `animate` (with position interpolation from zero state) with `AnimatePresence`. The pill now only mounts when `hoveredItem !== null`, positions directly at the button's coordinates from frame 1, and uses `initial`/`exit` only for `scaleY` + `opacity`. The `transformOrigin: bottom` makes it grow upward from the button's bottom edge. Enter/exit has no position animation — only vertical scale.
+
+### 2. Text stays black on hover
+**Before:** `itemTextColor(index)` returned `#ffffff` for the hovered item (to contrast against the amber/blue pill).
+
+**After:** Removed `itemTextColor` function entirely. All nav items inherit their default dark text color (`#090201`). No inline `style` for color on any item.
+
+### Code structure
+- Removed: `lastPositionRef`, `itemTextColor` function
+- Added: `AnimatePresence` wrapper, `initial`/`exit` on motion pill
+- `getIndicatorStyle` no longer handles the `hoveredItem === null` case for position (returns `{0,0,0,0}`) — the pill is unmounted via AnimatePresence
+
+---
+
+
+
 ## 1. Hero Tablet Shadow Removed
 
 **Files:** `src/components/ui/container-scroll-animation.tsx`
